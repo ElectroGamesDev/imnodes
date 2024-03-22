@@ -153,6 +153,16 @@ if (num_selected_nodes > 0)
 }
 ```
 
+To add zoom functionality, add this code after `EndNodeEditor()`.
+
+```cpp
+if( ImNodes::IsEditorHovered() && ImGui::GetIO().MouseWheel != 0 )
+{
+    float zoom = ImNodes::EditorContextGetZoom() + ImGui::GetIO().MouseWheel * 0.1f;
+    ImNodes::EditorContextSetZoom( zoom, ImGui::GetMousePos() );
+}
+```
+
 See `imnodes.h` for more UI event-related functions.
 
 Like `dear imgui`, the style of the UI can be changed. You can set the color style of individual nodes, pins, and links mid-frame by calling `ImNodes::PushColorStyle` and `ImNodes::PopColorStyle`.

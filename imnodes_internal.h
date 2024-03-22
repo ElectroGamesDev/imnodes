@@ -252,6 +252,7 @@ struct ImNodesEditorContext
     ImVector<int> NodeDepthOrder;
 
     // ui related fields
+    float  ZoomScale;
     ImVec2 Panning;
     ImVec2 AutoPanningDelta;
     // Minimum and maximum extents of all content in grid space. Valid after final
@@ -283,10 +284,11 @@ struct ImNodesEditorContext
     float  MiniMapScaling;
 
     ImNodesEditorContext()
-        : Nodes(), Pins(), Links(), Panning(0.f, 0.f), SelectedNodeIndices(), SelectedLinkIndices(),
-          SelectedNodeOffsets(), PrimaryNodeOffset(0.f, 0.f), ClickInteraction(),
-          MiniMapEnabled(false), MiniMapSizeFraction(0.0f), MiniMapNodeHoveringCallback(NULL),
-          MiniMapNodeHoveringCallbackUserData(NULL), MiniMapScaling(0.0f)
+        : Nodes(), Pins(), Links(), ZoomScale(1.f), Panning(0.f, 0.f), SelectedNodeIndices(),
+          SelectedLinkIndices(), SelectedNodeOffsets(), PrimaryNodeOffset(0.f, 0.f),
+          ClickInteraction(), MiniMapEnabled(false), MiniMapSizeFraction(0.0f),
+          MiniMapNodeHoveringCallback(NULL), MiniMapNodeHoveringCallbackUserData(NULL),
+          MiniMapScaling(0.0f)
     {
     }
 };
@@ -297,6 +299,8 @@ struct ImNodesContext
     ImNodesEditorContext* EditorCtx;
 
     // Canvas draw list and helper state
+    ImGuiContext* NodeEditorImgCtx;
+    ImGuiContext* OriginalImgCtx;
     ImDrawList*   CanvasDrawList;
     ImGuiStorage  NodeIdxToSubmissionIdx;
     ImVector<int> NodeIdxSubmissionOrder;
@@ -304,6 +308,7 @@ struct ImNodesContext
     ImVector<int> OccludedPinIndices;
 
     // Canvas extents
+    ImVec2 CanvasOriginalOrigin;
     ImVec2 CanvasOriginScreenSpace;
     ImRect CanvasRectScreenSpace;
 
@@ -343,6 +348,7 @@ struct ImNodesContext
     // ImGui::IO cache
 
     ImVec2 MousePos;
+    bool   IsHovered;
 
     bool  LeftMouseClicked;
     bool  LeftMouseReleased;
